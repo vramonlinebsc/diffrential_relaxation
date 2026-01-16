@@ -1,0 +1,68 @@
+ ======================================================================
+Day 3C: Structure Refinement (Float64, Fixed Gradients)
+======================================================================
+JAX backend: gpu
+Float64 enabled: True
+
+======================================================================
+Setup: Loading Structure
+======================================================================
+✓ Downloaded 2OED.pdb
+✓ Loaded structure: 56 residues
+
+→ Generating reference data...
+  R1:  1.865 ± 0.073 s⁻¹
+  CCR: -1.999 ± 0.043 s⁻¹
+
+→ Perturbing structure...
+  Initial RMSD: 0.293 Å
+
+======================================================================
+Refinement: WITH WORKING GRADIENTS
+======================================================================
+
+→ Refinement WITHOUT CCR (R1, R2, NOE only):
+    Step   0: Loss = 35816559.38, RMSD = 0.2929 Å, |∇| = 1.08e+09
+    Step  50: Loss = 31710966.03, RMSD = 0.2920 Å, |∇| = 9.48e+08
+    Step 100: Loss = 28294825.93, RMSD = 0.2911 Å, |∇| = 8.37e+08
+    Step 150: Loss = 25437945.19, RMSD = 0.2903 Å, |∇| = 7.45e+08
+    Step 200: Loss = 23020836.82, RMSD = 0.2894 Å, |∇| = 6.68e+08
+    Step 250: Loss = 20954503.07, RMSD = 0.2885 Å, |∇| = 6.03e+08
+
+→ Refinement WITH CCR (R1, R2, NOE, CCR):
+    Step   0: Loss = 35847069.22, RMSD = 0.2929 Å, |∇| = 1.08e+09
+    Step  50: Loss = 31739670.55, RMSD = 0.2920 Å, |∇| = 9.48e+08
+    Step 100: Loss = 28321893.90, RMSD = 0.2911 Å, |∇| = 8.37e+08
+    Step 150: Loss = 25463532.27, RMSD = 0.2903 Å, |∇| = 7.45e+08
+    Step 200: Loss = 23045080.14, RMSD = 0.2894 Å, |∇| = 6.69e+08
+    Step 250: Loss = 20977523.19, RMSD = 0.2885 Å, |∇| = 6.03e+08
+
+======================================================================
+RESULTS: The Moment of Truth
+======================================================================
+
+→ RMSD Comparison:
+  Initial:           0.2929 Å
+  After refinement (no CCR):  0.2877 Å
+  After refinement (w/ CCR):  0.2877 Å
+
+  Improvement without CCR:    0.0052 Å (1.8%)
+  Improvement with CCR:       0.0052 Å (1.8%)
+
+  CCR contribution: -0.0000 Å (-0.0%)
+
+✓ Saved: /content/diffrelax_checkpoints/day3c_refinement_FIXED.png
+
+======================================================================
+★ VERDICT ★
+======================================================================
+
+✗ CCR PROVIDES NO BENEFIT: -0.0%
+
+  Even with perfect gradients, CCR doesn't help
+  This suggests CCR genuinely doesn't add information
+  OR: The test scenario isn't sensitive to CCR
+
+======================================================================
+Float64 made gradients perfect. Now we know the truth about CCR.
+======================================================================

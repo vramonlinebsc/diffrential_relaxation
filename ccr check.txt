@@ -1,0 +1,96 @@
+ ======================================================================
+CCR IMPLEMENTATION AUDIT
+======================================================================
+
+======================================================================
+AUDIT 1: CCR Physics - Are the equations correct?
+======================================================================
+
+Typical CCR value:
+  r_NH = 1.02 Å
+  τc = 5 ns
+  S² = 0.85
+  θ = 45°
+  Δσ = -160 ppm
+  → CCR = 0.889 s⁻¹
+
+Literature range: -5 to +5 s⁻¹
+Status: ✓ REASONABLE
+
+======================================================================
+AUDIT 2: CCR Gradient - Is it sensitive to coordinates?
+======================================================================
+
+Gradient comparison at standard geometry:
+  ∇(loss_R1):  [ 0.          0.         43.64416922]
+  ∇(loss_CCR): [ 0.          0.         58.04175064]
+
+  |∇(loss_R1)|:  43.644169
+  |∇(loss_CCR)|: 58.041751
+
+  Ratio: |∇CCR| / |∇R1| = 1.3299
+
+  ✓ CCR gradient is comparable to R1
+
+======================================================================
+AUDIT 3: How much does CCR change with perturbations?
+======================================================================
+
+Sensitivity to ±0.3 Å perturbation:
+  R1 loss range:  10861.9388
+  CCR loss range: 233.3463
+  Ratio: CCR/R1 = 0.0215
+
+  ⚠️  CCR is 10× less sensitive than R1
+      CCR provides weak structural information
+
+✓ Saved sensitivity analysis
+
+======================================================================
+AUDIT 4: CCR Angular Dependence
+======================================================================
+
+CCR angular variation:
+  Min CCR: -1.773 s⁻¹ (at θ = 88.2°)
+  Max CCR: 3.556 s⁻¹ (at θ = 0.0°)
+  Range: 5.329 s⁻¹
+
+======================================================================
+AUDIT 5: Loss Function Weights
+======================================================================
+
+Weights used in refinement code:
+  R1:  σ = 0.1 s⁻¹  → weight ∝ 1/0.01 = 100
+  R2:  σ = 0.5 s⁻¹  → weight ∝ 1/0.25 = 4
+  NOE: σ = 0.03     → weight ∝ 1/0.0009 = 1111
+  CCR: σ = 0.2 s⁻¹  → weight ∝ 1/0.04 = 25
+
+Relative importance in loss:
+  NOE >> R1 > CCR > R2
+
+Weighted gradient magnitudes:
+  |∇(R1 weighted)|:  43.644169
+  |∇(CCR weighted)|: 58.041751
+  Ratio: 1.3299
+
+======================================================================
+FINAL DIAGNOSIS
+======================================================================
+
+CCR Information Content:
+  Gradient strength:   1.3299 × R1
+  Sensitivity:         0.0215 × R1
+  Typical magnitude:   0.889 s⁻¹
+
+----------------------------------------------------------------------
+⚠️  CCR IS WEAK BUT MEASURABLE
+
+  CCR provides ~10% gradient information
+  It might help slightly, but not dramatically
+
+  RECOMMENDATION: Test on multiple proteins
+                  CCR benefit might be system-dependent
+
+======================================================================
+Run this audit, then we'll know if CCR implementation is the issue
+======================================================================
